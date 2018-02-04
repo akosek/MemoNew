@@ -5,9 +5,11 @@ import {
   Text,
   View,
 	Image,
+  AsyncStorage,
   TouchableHighlight,
   Animated, Dimensions
 } from 'react-native';
+import { Icon } from 'react-native-elements';
 import { List, ListItem, Button } from 'react-native-elements';
 /*import ReactCardFlip from 'react-card-flip';*/
 /*import FlipCard from 'react-native-flip-card';*/
@@ -26,13 +28,56 @@ var cardSize = width * 0.213;
 var imageSize = cardSize * 0.5625;
 
 
+/*class ScoreBoard extends React.Component {
+  render(){
+
+    return (
+      <View>
+        <TouchableHighlight onPress="{()=>{this.displayData}}">
+            <Text>Show result</Text>
+        </TouchableHighlight>
+      </View>
+    )
+  }
+}*/
+
+
 export class CardBoard extends React.Component {
+
   constructor(props){
      super(props);
      this.state = {cards: this.props.images, time: 0};
      this.updateBoard = this.updateBoard.bind(this);
+     this.saveData = this.saveData.bind(this);
+     this.displayData = this.displayData.bind(this);
    }
 
+   saveData(value) {
+     let userScore = value;
+     AsyncStorage.setItem("userScore", JSON.stringify(userScore));
+    /*  alert("This is your score" + userScore);*/
+     /*let userScore = value;
+       AsyncStorage.setItem("userScore", userScore);*/
+     }
+
+
+   displayData = async () => {
+     const scoreArray = [];
+     try {
+       let userScore = await AsyncStorage.getItem('userScore');
+      /* let parsed = JSON.parse('userScore');*/
+      /*userScore = JSON.parse('userScore');
+      userScore.push(userScore)*/
+
+       scoreArray.push(userScore);
+
+       alert("Your last score " + scoreArray);
+       console.log(scoreArray);
+     }
+     catch(error){
+       alert(error);
+     }
+   }
 
    updateBoard(newPressed) {
 
@@ -82,10 +127,13 @@ export class CardBoard extends React.Component {
        clearInterval(timerHandle);
        var totalTime = (end - start)/1000;
        this.setState({time: totalTime});
-       alert("End Game: " + totalTime + " seconds");
+       this.saveData(totalTime);
+      /* */
+      /* alert("End Game: " + totalTime + " seconds");*/
      }
 
      tapNum = !tapNum;
+
    }
 
    componentDidMount () {
@@ -123,9 +171,17 @@ export class CardBoard extends React.Component {
       return (
          <View style={styles.container}>
 
+           <View style={styles.topGameBar}>
+           <TouchableHighlight onPress={this.displayData}>
+               <Text style={{color:'white', marginBottom:10}}>Show result</Text>
+           </TouchableHighlight>
            <View style={styles.timerBox}>
-             <Text style={styles.timerText}>Timer: {this.state.time}</Text>
+             <Icon name='clock'
+             type='evilicon'
+             color='#ea4d57' size={33}/>
+             <Text style={styles.timerText}>: {this.state.time}</Text>
            </View>
+         </View>
 
            <View style={styles.cardBox}>
               <Text>{pickedImages}</Text>
@@ -161,31 +217,36 @@ class Card extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
+    flex:1,
     alignItems: 'center',
     justifyContent : 'center',
-    backgroundColor: '#50CEB4',
+    backgroundColor: 'black',
     height: '100%'
   },
   timerBox: {
     flexDirection: 'row',
     marginTop:0,
-    marginBottom: 15,
     alignItems: 'flex-start',
     justifyContent : 'center',
   },
   timerText: {
     fontSize: 20,
-    color: 'white'
+    color: '#ea4d57',
+    fontWeight: 'bold'
+  },
+  cardBox: {
+    alignItems: 'flex-start',
+    flex:1,
+    justifyContent: 'center',
   },
   imageContainer: {
     width: cardSize,
     height: cardSize,
-    borderRadius: 8,
-    borderWidth: 1,
+    borderRadius: 10,
+    borderWidth: 2,
     borderColor: '#FC5D65',
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f7d867'
+    backgroundColor: 'white'
   },
   imageHide: {
     display: 'none',
@@ -195,28 +256,3 @@ const styles = StyleSheet.create({
     alignItems: 'center',
 	},
 });
-
-/*const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent : 'center',
-    backgroundColor: 'white'
-  },
-  imageContainer: {
-    flex:1,
-    width: 70,
-    height: 70,
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f7d867'
-  },
-  imageHide: {
-    display: 'none',
-  },
-  imageStyle: {
-    fontSize: 40,
-    alignItems: 'center',
-	},
-});*/

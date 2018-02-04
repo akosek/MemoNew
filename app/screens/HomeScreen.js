@@ -6,11 +6,15 @@ import {
     Image,
     TouchableOpacity,
     Picker,
+    ImageBackground,
 		Item
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Button, Header } from 'react-native-elements';
 import { Sets } from '../components/Sets.js';
+import {BottomNavigation} from '../../App.js';
+import { StackNavigator } from 'react-navigation';
+
 
 /*/*import { Dropdown } from 'react-native-material-dropdown';*/
 
@@ -32,68 +36,56 @@ class HomeScreen extends Component {
 
       return(
 
-      /*  <View>
-          <Header
-            leftComponent={{ icon: 'menu', color: '#fff' }}
-            centerComponent={{ text: 'MY TITLE', style: { color: '#fff' } }}
-            rightComponent={{ icon: 'home', color: '#fff' }}
-          />
-        </View>*/
-        <View style={styles.container}>
-
-          <View style={styles.navBar}>
-            <Text style={styles.helloText}>Welcome to Memory Chalange</Text>
-          </View>
+        <ImageBackground source={require('../../src/images/back.png')} style={styles.backgroundImage}>
 
         <View style={styles.body}>
-          <Image source={require('../../src/images/brain.png')} style={{height: 160, width:160}} />
 
-					<View style={styles.pickerBox}>
-            <Text style={styles.levelText}>Selected Level: {this.state.level}</Text>
+          <View style={styles.pickerBox}>
+            <Text style={styles.levelText}>Select Level:</Text>
             <Picker
+              itemStyle = {{color:'white'}}
+              mode="dropdown"
               selectedValue={this.state.level}
               onValueChange={(itemValue, itemIndex) => this.setState({level: itemValue})}>
-              <Picker.Item label='Easy' value='Easy'/>
+              <Picker.Item label='Easy' value='Easy' style={{color:'red'}}/>
               <Picker.Item label='Medium' value='Medium'/>
               <Picker.Item label='Hard' value='Hard'/>
             </Picker>
-
-
 					</View>
 
 					<View style={styles.buttonBox}>
           	<Button
             	icon={{name: 'play', type: 'evilicon', size: 35}}
-            	buttonStyle={{backgroundColor: "#FC5D65", borderRadius: 15, padding:15}}
-            	textStyle={{textAlign: 'center'}}
+            	buttonStyle={{backgroundColor: "#FC5D65", borderRadius: 15, padding:15, marginTop: 10}}
+            	textStyle={{textAlign: 'center', fontSize:16}}
             	title={`PLAY`}
             	onPress={()=>this.props.navigation.navigate('GameScreen', {levelName: this.state.level} )}
           	/>
 					</View>
-        </View>
-
-          <View style={styles.tabBar}>
-            <TouchableOpacity style={styles.tabItem}>
-                <Icon name='home' color='#ea4d57' size={30}/>
-                <Text style={styles.tabText}>Home</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.tabItem}>
-                <Icon name='trophy'
-                type='evilicon'
-                color='#ea4d57' size={30}/>
-                <Text style={styles.tabText}>Scores</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.tabItem}>
-                <Icon name='gear'
-                type='evilicon'
-                color='#ea4d57' size={30}/>
-                <Text style={styles.tabText}>Settings</Text>
-            </TouchableOpacity>
-          </View>
 
         </View>
 
+        <View style={styles.tabBar}>
+          <TouchableOpacity style={styles.tabItem}>
+              <Icon name='home' color='#ea4d57' size={30}/>
+              <Text style={styles.tabText}>Home</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.tabItem} onPress={()=>this.props.navigation.navigate('ScoreScreen')}>
+              <Icon name='trophy'
+              type='evilicon'
+              color='#ea4d57' size={30}/>
+              <Text style={styles.tabText}>Scores</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.tabItem}>
+              <Icon name='gear'
+              type='evilicon'
+              color='#ea4d57' size={30}/>
+              <Text style={styles.tabText}>Settings</Text>
+          </TouchableOpacity>
+        </View>
+
+  </ImageBackground>
 
 		);
 
@@ -105,68 +97,62 @@ console.log("This is the level outside " + pickedLevel);
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: 'white',
+
+    backgroundImage: {
+      flex: 1,
+      width: null,
+      height: null
     },
-    navBar: {
-      marginBottom: 10
+    body: {
+      flex:1,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
     },
-		helloText: {
+/*		helloText: {
 			fontSize: 22,
 			textAlign: 'center',
       color: '#50CEB4',
       marginTop: 10,
 			marginBottom: 10,
 			fontWeight: 'bold'
-		},
-		buttonPlay:{
-			fontSize: 40,
-			backgroundColor: '#000',
-		},
+		},*/
     body: {
-      flex:2,
-      backgroundColor: 'white',
+      flex:1,
+      justifyContent: 'center',
       alignItems: 'center',
+      marginTop: 10
     },
 		pickerBox: {
-			flex: 1,
-			marginBottom: 90,
-		},
-		pickerStyle: {
-			top:10,
-			maxHeight: 10,
-			borderColor: '#FC5D65',
+      marginTop: 10,
+      flex:1,
 		},
 		levelText: {
 			color: '#FC5D65',
-			fontSize: 18,
-			marginTop:10,
+			fontSize: 20,
+			marginTop:100,
 			fontWeight: 'bold'
 		},
 		buttonBox: {
-			flex:1,
-			marginTop:20
+      flex:1,
+      marginTop: 90,
 		},
     tabBar: {
-      backgroundColor: 'white',
-      height: 50,
-      borderTopWidth: 0.5,
-      borderColor: "#E5E5E5",
+      height: 45,
+      width: '100%',
+    /*borderTopWidth: 0.5,
+      borderColor: "#E5E5E5",*/
       flexDirection: 'row',
       justifyContent: 'space-around',
       alignItems: 'center',
+      backgroundColor: 'rgba(52, 52, 52, 0.95)'
     },
     tabItem: {
       alignItems: 'center',
       justifyContent: 'center',
+      flexDirection: "row"
     },
     tabText: {
       color: '#ea4d57'
     },
-    dropdownView: {
-      flexDirection: 'row',
-      marginBottom: 50,
-      alignItems:'center',
-    }
 });

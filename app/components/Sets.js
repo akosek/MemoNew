@@ -3,9 +3,11 @@ import {GameScreen} from '../screens/GameScreen.js';
 import {HomeScreen} from '../screens/HomeScreen.js';
 import {CardBoard} from './CardBoard.js';
 
+
 const images =
 [
   [
+    ["😹","😻","😼","😽","🙀","😿","😾","😸","😺"],
 		["🚗","🚕","🚙","🚌","🚎","🚓","🚑","🚒","🚚","🚜","🚛","🏎","🚲"],
 	  ["🐶","🐭","🐱","🐹","🐰","🐼","🐨","🐯","🦁","🐮","🐷","🐵","🐸"],
 	  ["🌽","🌶","🍑","🍒","🍈","🍓","🍇","🍉","🍌","🍋","🍎","🍺","🍲","🍷","🍸","🍹","🍜","🍶","🍵","🍝"]
@@ -29,9 +31,10 @@ render(){
 console.log("This is level from Sets " + this.props.levelName);
 
   var randomnumber = Math.floor(Math.random() * 3);
+  var fisrtsetnumber = Math.floor(Math.random() * 4);
   switch (this.props.levelName) {
     case 'Easy':
-      var set = images[0][randomnumber];
+      var set = images[0][fisrtsetnumber];
       var numCards = 8;
       break;
     case 'Medium':
