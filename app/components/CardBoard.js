@@ -11,8 +11,6 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { List, ListItem, Button } from 'react-native-elements';
-/*import ReactCardFlip from 'react-card-flip';*/
-/*import FlipCard from 'react-native-flip-card';*/
 import {Sets} from './Sets.js';
 
 let tapNum = false;
@@ -28,56 +26,35 @@ var cardSize = width * 0.213;
 var imageSize = cardSize * 0.5625;
 
 
-/*class ScoreBoard extends React.Component {
-  render(){
+export let userScore = ' ';
 
-    return (
-      <View>
-        <TouchableHighlight onPress="{()=>{this.displayData}}">
-            <Text>Show result</Text>
-        </TouchableHighlight>
-      </View>
-    )
-  }
-}*/
-
+export let finalScores = [];
 
 export class CardBoard extends React.Component {
-
   constructor(props){
      super(props);
      this.state = {cards: this.props.images, time: 0};
      this.updateBoard = this.updateBoard.bind(this);
      this.saveData = this.saveData.bind(this);
-     this.displayData = this.displayData.bind(this);
    }
 
-   saveData(value) {
-     let userScore = value;
-     AsyncStorage.setItem("userScore", JSON.stringify(userScore));
-    /*  alert("This is your score" + userScore);*/
-     /*let userScore = value;
-       AsyncStorage.setItem("userScore", userScore);*/
+   async saveData(value) {
+
+     //AsyncStorage.clear();
+     let response = await AsyncStorage.getItem("userScore");
+     let data = await JSON.parse(response) || [];
+
+     finalScores = data.concat(value);
+
+     console.log(finalScores);
+     await AsyncStorage.setItem("userScore", JSON.stringify(finalScores));
+
+    /* userScore = value;
+     await AsyncStorage.setItem("userScore", JSON.stringify(userScore));
+*/
+
      }
 
-
-   displayData = async () => {
-     const scoreArray = [];
-     try {
-       let userScore = await AsyncStorage.getItem('userScore');
-      /* let parsed = JSON.parse('userScore');*/
-      /*userScore = JSON.parse('userScore');
-      userScore.push(userScore)*/
-
-       scoreArray.push(userScore);
-
-       alert("Your last score " + scoreArray);
-       console.log(scoreArray);
-     }
-     catch(error){
-       alert(error);
-     }
-   }
 
    updateBoard(newPressed) {
 
@@ -111,7 +88,7 @@ export class CardBoard extends React.Component {
                  this.state.cards[i].clickable = true;
            }
            this.setState({cards: this.state.cards});
-         }.bind(this), 700);
+         }.bind(this), 300);
        }
      }
 
@@ -128,8 +105,8 @@ export class CardBoard extends React.Component {
        var totalTime = (end - start)/1000;
        this.setState({time: totalTime});
        this.saveData(totalTime);
-      /* */
-      /* alert("End Game: " + totalTime + " seconds");*/
+
+       alert("End Game: " + totalTime + " seconds");
      }
 
      tapNum = !tapNum;
@@ -172,9 +149,6 @@ export class CardBoard extends React.Component {
          <View style={styles.container}>
 
            <View style={styles.topGameBar}>
-           <TouchableHighlight onPress={this.displayData}>
-               <Text style={{color:'white', marginBottom:10}}>Show result</Text>
-           </TouchableHighlight>
            <View style={styles.timerBox}>
              <Icon name='clock'
              type='evilicon'

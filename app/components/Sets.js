@@ -35,7 +35,7 @@ console.log("This is level from Sets " + this.props.levelName);
   switch (this.props.levelName) {
     case 'Easy':
       var set = images[0][fisrtsetnumber];
-      var numCards = 8;
+      var numCards = 2;
       break;
     case 'Medium':
       var set = images[1][randomnumber];
