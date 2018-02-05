@@ -78,7 +78,7 @@ console.log("This is level from Sets " + this.props.levelName);
   );
 
   return(
-    <CardBoard images={cardImages} />
+    <CardBoard images={cardImages} level={this.props.levelName} />
   );
 
   }

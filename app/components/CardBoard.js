@@ -26,7 +26,9 @@ var cardSize = width * 0.213;
 var imageSize = cardSize * 0.5625;
 
 
-export let userScore = ' ';
+export let userScore = {
+
+};
 
 export let finalScores = [];
 
@@ -44,7 +46,9 @@ export class CardBoard extends React.Component {
      let response = await AsyncStorage.getItem("userScore");
      let data = await JSON.parse(response) || [];
 
-     finalScores = data.concat(value);
+     /*finalScores = data.concat(value);*/
+
+     finalScores = data.concat({levelData: this.props.level, scoreData: value, key: finalScores.length+1});
 
      console.log(finalScores);
      await AsyncStorage.setItem("userScore", JSON.stringify(finalScores));
@@ -134,6 +138,8 @@ export class CardBoard extends React.Component {
    }
 
    render() {
+
+     console.log("Level from Sets! " + this.props.level);
 
       let pickedImages = this.state.cards.map((image,index) =>
            <Card key={index}

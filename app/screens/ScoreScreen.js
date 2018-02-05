@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, FlatList, StyleSheet, Text, View, TouchableOpacity, AsyncStorage } from 'react-native';
+import { AppRegistry, FlatList, List, StyleSheet, Text, View, TouchableOpacity, AsyncStorage } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { finalScores } from '../components/CardBoard.js';
 import { CardBoard } from '../components/CardBoard.js';
@@ -26,9 +26,9 @@ export default class ScoreScreen extends Component {
     }
 
 
-const finalArray = [];
+/*const finalArray = [];*/
 
-  showItems = () => {
+/*  showItems = () => {
     for(var i =0; i< finalScores.length; i++){
       let obj = {
         key: i,
@@ -38,29 +38,33 @@ const finalArray = [];
       }
 
       console.log(finalArray);
-    }
+    }*/
 
     displayData();
-    showItems();
 
 
-    console.log("This is final scores from All the Games " + finalScores);
+
+
+  /*  console.log("This is final scores from All the Games " + finalScores);*/
 
     return (
       <View style={styles.container}>
 
         <View style={styles.navScore}>
           <TouchableOpacity style={styles.backButton} onPress={() => this.props.navigation.dispatch(NavigationActions.back())}>
-              <Icon  name='chevron-left' color='#ea4d57' size={35}/>
+              <Icon name='chevron-left' color='#ea4d57' size={35}/>
           </TouchableOpacity>
           <Text style={styles.topText}>Your Scores:</Text>
         </View>
 
         <View style={styles.scoreBody}>
-        <FlatList
-          data={finalArray}
-          renderItem={({item}) => <Text style={styles.item}>{item.scoreNumber}</Text>}
-        />
+
+            <FlatList
+              data={finalScores}
+              renderItem={({item}) => <Text style={styles.item}>{item.levelData} {item.scoreData}</Text>}
+            />
+
+
       </View>
       </View>
     );
