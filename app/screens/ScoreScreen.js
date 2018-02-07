@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { AppRegistry, FlatList, List, StyleSheet, Text, View, TouchableOpacity, AsyncStorage, SectionList } from 'react-native';
 import { Icon } from 'react-native-elements';
-import { finalScores } from '../components/CardBoard.js';
+import { finalScores } from '../../App.js';
 import { CardBoard } from '../components/CardBoard.js';
 import { StackNavigator, NavigationActions } from 'react-navigation';
 
@@ -10,9 +10,7 @@ export default class ScoreScreen extends Component {
 
   constructor(props){
     super(props);
-    this.state = {
-
-    }
+    this.state = {finalScores}
   }
 
   render() {
@@ -25,27 +23,12 @@ export default class ScoreScreen extends Component {
     }
 
 
-/*const finalArray = [];*/
-
-/*  showItems = () => {
-    for(var i =0; i< finalScores.length; i++){
-      let obj = {
-        key: i,
-        scoreNumber: finalScores[i]
-      }
-        finalArray.push(obj);
-      }
-
-      console.log(finalArray);
-    }*/
-
     displayData();
 
   /*  console.log("This is final scores from All the Games " + finalScores);*/
 
     return (
       <View style={styles.container}>
-
         <View style={styles.navScore}>
           <TouchableOpacity style={styles.backButton} onPress={() => this.props.navigation.dispatch(NavigationActions.back())}>
               <Icon name='chevron-left' color='#ea4d57' size={35}/>
@@ -57,7 +40,7 @@ export default class ScoreScreen extends Component {
 
           <FlatList
             data={finalScores}
-            renderItem={({item}) => <Text style={styles.item}>{item.scoreData} {item.levelData}</Text>}
+            renderItem={({item}) => <Text style={styles.item}>{item.key} {item.scoreData} {item.levelData}</Text>}
           />
 
       </View>
@@ -96,4 +79,4 @@ const styles = StyleSheet.create({
 })
 
 // skip this line if using Create React Native App
-AppRegistry.registerComponent('AwesomeProject', () => FlatListBasics);
+//AppRegistry.registerComponent('AwesomeProject', () => FlatListBasics);

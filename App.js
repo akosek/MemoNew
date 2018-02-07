@@ -5,6 +5,7 @@ import {
   Text,
   View,
   Button,
+  AsyncStorage,
   TouchableOpacity,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
@@ -15,9 +16,25 @@ import HomeScreen from './app/screens/HomeScreen';
 import GameScreen from './app/screens/GameScreen';
 import ScoreScreen from './app/screens/ScoreScreen';
 
+export let finalScores =[];
+
 
 export default class App extends Component <{}> {
+  constructor(props){
+    super(props);
+    this.getData = this.getData.bind(this);
+  }
+
+
+  async getData(){
+    let response = await AsyncStorage.getItem('userScore');
+    finalScores = await JSON.parse(response) || [];
+  }
+
   render() {
+
+    this.getData();
+
     return (
 
         <NavigationApp />

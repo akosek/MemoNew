@@ -22,8 +22,8 @@ export default class GameScreen extends Component {
 
             <TouchableOpacity style={styles.homeButton} onPress={() => this.props.navigation.dispatch(NavigationActions.back())}>
                 <Icon  name='chevron-left' color='#ea4d57' size={35}/>
-
             </TouchableOpacity>
+
             <Sets levelName={levelChosen} />
 					</View>
         );

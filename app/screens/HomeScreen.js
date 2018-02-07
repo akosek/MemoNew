@@ -13,7 +13,7 @@ import { Icon } from 'react-native-elements';
 import { Button, Header } from 'react-native-elements';
 import { Sets } from '../components/Sets.js';
 import { StackNavigator } from 'react-navigation';
-
+import Modal from 'react-native-modalbox';
 
 /*/*import { Dropdown } from 'react-native-material-dropdown';*/
 
@@ -23,7 +23,12 @@ class HomeScreen extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			level: 'Medium'
+			level: 'Medium',
+      isOpen: false,
+      isDisabled: false,
+      swipeToClose: true,
+      sliderValue: 0.3,
+      backdropPressToClose: true
 		}
 	}
 
@@ -38,7 +43,6 @@ class HomeScreen extends Component {
         <ImageBackground source={require('../../src/images/back.png')} style={styles.backgroundImage}>
 
         <View style={styles.body}>
-
           <View style={styles.pickerBox}>
             <Text style={styles.levelText}>Select Level:</Text>
             <Picker
@@ -61,26 +65,31 @@ class HomeScreen extends Component {
             	onPress={()=>this.props.navigation.navigate('GameScreen', {levelName: this.state.level} )}
           	/>
 					</View>
-
         </View>
 
+        <Modal style={styles.modal} position={"center"} ref={"modal3"} isDisabled={this.state.isDisabled}  isOpen={this.state.isOpen}>
+          <Text style={styles.helloText}>Welcome to Memory Challange</Text>
+          <Text style={styles.text}>
+            Remeber the position of the pair for each card and find them!
+          </Text>
+          <TouchableOpacity
+            onPress={() => this.setState({isOpen: !this.state.isOpen})}>
+              <Icon name='close' color='#ea4d57' size={30}/>
+          </TouchableOpacity>
+        </Modal>
+
+
         <View style={styles.tabBar}>
-          <TouchableOpacity style={styles.tabItem}>
-              <Icon name='home' color='#ea4d57' size={30}/>
-              <Text style={styles.tabText}>Home</Text>
+          <TouchableOpacity style={styles.tabItem}
+            onPress={() => this.refs.modal3.open()} style={styles.btn} >
+              <Icon name='info' color='#ea4d57' size={30}/>
+              <Text style={styles.tabText}>Info</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.tabItem} onPress={()=>this.props.navigation.navigate('ScoreScreen')}>
               <Icon name='trophy'
               type='evilicon'
               color='#ea4d57' size={30}/>
               <Text style={styles.tabText}>Scores</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.tabItem}>
-              <Icon name='gear'
-              type='evilicon'
-              color='#ea4d57' size={30}/>
-              <Text style={styles.tabText}>Settings</Text>
           </TouchableOpacity>
         </View>
 
@@ -108,14 +117,13 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
     },
-/*		helloText: {
+	helloText: {
 			fontSize: 22,
 			textAlign: 'center',
       color: '#50CEB4',
-      marginTop: 10,
-			marginBottom: 10,
+			marginBottom: 30,
 			fontWeight: 'bold'
-		},*/
+		},
     body: {
       flex:1,
       justifyContent: 'center',
@@ -137,7 +145,7 @@ const styles = StyleSheet.create({
       marginTop: 90,
 		},
     tabBar: {
-      height: 45,
+      height: 50,
       width: '100%',
     /*borderTopWidth: 0.5,
       borderColor: "#E5E5E5",*/
@@ -149,9 +157,25 @@ const styles = StyleSheet.create({
     tabItem: {
       alignItems: 'center',
       justifyContent: 'center',
-      flexDirection: "row"
+      flexDirection: "row",
     },
     tabText: {
       color: '#ea4d57'
     },
+    modal: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: 300,
+      width: 300
+    },
+    text: {
+      color: '#ea4d57',
+      fontSize: 18,
+      alignItems: 'center',
+      justifyContent:'center'
+
+    }
+
+
+
 });

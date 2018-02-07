@@ -25,15 +25,15 @@ var currentTime;
 // Count size for cards and board
 var {height, width} = Dimensions.get('window');
 console.log("height :" + height + ", width:" + width); /////////
-var cardSize = width * 0.213;
+var cardSize = width * 0.220;
 var imageSize = cardSize * 0.5625;
 
 
 export let userScore = {
-
 };
 
-export let finalScores = [];
+
+let scoreDisplay = '';
 
 export class CardBoard extends React.Component {
   constructor(props){
@@ -62,16 +62,10 @@ export class CardBoard extends React.Component {
      let response = await AsyncStorage.getItem("userScore");
      let data = await JSON.parse(response) || [];
 
-     /*finalScores = data.concat(value);*/
-
-     finalScores = data.concat({levelData: this.props.level, scoreData: value, key: finalScores.length+1});
+     finalScores = data.concat({levelData: this.props.level, scoreData: value, key: data.length+1});
 
      console.log(finalScores);
      await AsyncStorage.setItem("userScore", JSON.stringify(finalScores));
-
-    /* userScore = value;
-     await AsyncStorage.setItem("userScore", JSON.stringify(userScore));
-*/
 
      }
 
@@ -124,6 +118,7 @@ export class CardBoard extends React.Component {
        var totalTime = (end - start)/1000;
        this.setState({time: totalTime});
        this.saveData(totalTime);
+       scoreDisplay = JSON.stringify(totalTime);
        this.showAlert();
       // alert("End Game: " + totalTime + " seconds");
      }
@@ -188,21 +183,17 @@ export class CardBoard extends React.Component {
              show={showAlert}
              showProgress={false}
              title="Your final time:"
-             message= {currentTime}
+             message= {scoreDisplay}
              closeOnTouchOutside={true}
              closeOnHardwareBackPress={false}
-             showCancelButton={true}
+             showCancelButton={false}
              showConfirmButton={true}
-             cancelText="See scores"
-             confirmText="Play again"
+             confirmText="OK!"
              confirmButtonColor="#ea4d57"
-             onCancelPressed={() => {
+             onConfirmPressed={() => {
                this.hideAlert();
              }}
-             onConfirmPressed={() => {this.hideAlert();
-             }}
            />
-
 
          </View>
        );
@@ -210,7 +201,6 @@ export class CardBoard extends React.Component {
  }
 
 class Card extends React.Component {
-
     constructor(props){
       super(props);
       this.toogleCard = this.toogleCard.bind(this);
@@ -252,7 +242,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   cardBox: {
-    alignItems: 'flex-start',
+    top:0,
     flex:1,
     justifyContent: 'center',
   },
