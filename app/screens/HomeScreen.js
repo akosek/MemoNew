@@ -12,7 +12,6 @@ import {
 import { Icon } from 'react-native-elements';
 import { Button, Header } from 'react-native-elements';
 import { Sets } from '../components/Sets.js';
-import {BottomNavigation} from '../../App.js';
 import { StackNavigator } from 'react-navigation';
 
 

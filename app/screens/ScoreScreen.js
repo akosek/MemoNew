@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { AppRegistry, FlatList, List, StyleSheet, Text, View, TouchableOpacity, AsyncStorage } from 'react-native';
+import { AppRegistry, FlatList, List, StyleSheet, Text, View, TouchableOpacity, AsyncStorage, SectionList } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { finalScores } from '../components/CardBoard.js';
 import { CardBoard } from '../components/CardBoard.js';
 import { StackNavigator, NavigationActions } from 'react-navigation';
-
 
 
 export default class ScoreScreen extends Component {
@@ -42,9 +41,6 @@ export default class ScoreScreen extends Component {
 
     displayData();
 
-
-
-
   /*  console.log("This is final scores from All the Games " + finalScores);*/
 
     return (
@@ -59,11 +55,10 @@ export default class ScoreScreen extends Component {
 
         <View style={styles.scoreBody}>
 
-            <FlatList
-              data={finalScores}
-              renderItem={({item}) => <Text style={styles.item}>{item.levelData} {item.scoreData}</Text>}
-            />
-
+          <FlatList
+            data={finalScores}
+            renderItem={({item}) => <Text style={styles.item}>{item.scoreData} {item.levelData}</Text>}
+          />
 
       </View>
       </View>

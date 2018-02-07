@@ -9,8 +9,11 @@ import {
   TouchableHighlight,
   Animated, Dimensions
 } from 'react-native';
+import { StackNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 import { List, ListItem, Button } from 'react-native-elements';
+import {ScoreScreen} from "../screens/ScoreScreen";
+import AwesomeAlert from 'react-native-awesome-alerts';
 import {Sets} from './Sets.js';
 
 let tapNum = false;
@@ -35,10 +38,23 @@ export let finalScores = [];
 export class CardBoard extends React.Component {
   constructor(props){
      super(props);
-     this.state = {cards: this.props.images, time: 0};
+     this.state = {cards: this.props.images, time: 0, showAlert: false};
      this.updateBoard = this.updateBoard.bind(this);
      this.saveData = this.saveData.bind(this);
+
    }
+
+   showAlert = () => {
+     this.setState({
+       showAlert: true
+     });
+   };
+
+   hideAlert = () => {
+     this.setState({
+       showAlert: false
+     });
+   };
 
    async saveData(value) {
 
@@ -58,7 +74,6 @@ export class CardBoard extends React.Component {
 */
 
      }
-
 
    updateBoard(newPressed) {
 
@@ -109,8 +124,8 @@ export class CardBoard extends React.Component {
        var totalTime = (end - start)/1000;
        this.setState({time: totalTime});
        this.saveData(totalTime);
-
-       alert("End Game: " + totalTime + " seconds");
+       this.showAlert();
+      // alert("End Game: " + totalTime + " seconds");
      }
 
      tapNum = !tapNum;
@@ -139,6 +154,8 @@ export class CardBoard extends React.Component {
 
    render() {
 
+     const {showAlert} = this.state;
+
      console.log("Level from Sets! " + this.props.level);
 
       let pickedImages = this.state.cards.map((image,index) =>
@@ -166,6 +183,26 @@ export class CardBoard extends React.Component {
            <View style={styles.cardBox}>
               <Text>{pickedImages}</Text>
            </View>
+
+           <AwesomeAlert
+             show={showAlert}
+             showProgress={false}
+             title="Your final time:"
+             message= {currentTime}
+             closeOnTouchOutside={true}
+             closeOnHardwareBackPress={false}
+             showCancelButton={true}
+             showConfirmButton={true}
+             cancelText="See scores"
+             confirmText="Play again"
+             confirmButtonColor="#ea4d57"
+             onCancelPressed={() => {
+               this.hideAlert();
+             }}
+             onConfirmPressed={() => {this.hideAlert();
+             }}
+           />
+
 
          </View>
        );
