@@ -1,27 +1,29 @@
 import React, { Component } from 'react';
 import { AppRegistry, FlatList, List, StyleSheet, Text, View, TouchableOpacity, AsyncStorage, SectionList } from 'react-native';
 import { Icon } from 'react-native-elements';
-import { finalScores } from '../../App.js';
+import { finalScores } from './HomeScreen.js';
 import { CardBoard } from '../components/CardBoard.js';
 import { StackNavigator, NavigationActions } from 'react-navigation';
 
+let data = [];
 
 export default class ScoreScreen extends Component {
 
   constructor(props){
     super(props);
-    this.state = finalScores;
+
   }
 
   render() {
 
     displayData = async () => {
       let response = await AsyncStorage.getItem("userScore");
-      let data = await JSON.parse(response) || [];
+      data = await JSON.parse(response) || [];
       console.log(data);
     }
 
     displayData();
+  //  console.log(finalScores);
 
     return (
       <View style={styles.container}>
@@ -35,7 +37,7 @@ export default class ScoreScreen extends Component {
         <View style={styles.scoreBody}>
 
           <FlatList
-            data={finalScores}
+            data={data}
             renderItem={({item}) => <Text style={styles.item}>{item.key} {item.userName} {item.levelData} {item.scoreData}</Text>}
           />
 

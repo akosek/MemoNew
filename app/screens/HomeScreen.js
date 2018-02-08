@@ -7,7 +7,8 @@ import {
     TouchableOpacity,
     Picker,
     ImageBackground,
-		Item
+		Item,
+    AsyncStorage
 } from 'react-native';
 import { Icon, Button } from 'react-native-elements';
 import { StackNavigator } from 'react-navigation';
@@ -16,6 +17,9 @@ import { StackNavigator } from 'react-navigation';
 import { Sets } from '../components/Sets.js';
 
 let pickedLevel = '';
+
+export let finalScores = [];
+
 
 class HomeScreen extends Component {
 	constructor(props){
@@ -28,7 +32,15 @@ class HomeScreen extends Component {
       sliderValue: 0.3,
       backdropPressToClose: true
 		}
+    this.getData = this.getData.bind(this);
 	}
+
+  async getData(){
+      let response = await AsyncStorage.getItem('userScore');
+      finalScores = await JSON.parse(response) || [];
+  //    console.log(finalScores);
+    }
+
 
     render() {
 
@@ -89,7 +101,12 @@ class HomeScreen extends Component {
               <Icon name='info' color='#ea4d57' size={30}/>
               <Text style={styles.tabText}>Info</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.tabItem} onPress={()=>this.props.navigation.navigate('ScoreScreen')}>
+          <TouchableOpacity style={styles.tabItem} onPress={()=>{
+            this.getData();
+            this.props.navigation.navigate('ScoreScreen');
+
+            console.log("NEWWW" + finalScores);
+          }}>
               <Icon name='trophy'
               type='evilicon'
               color='#ea4d57' size={30}/>

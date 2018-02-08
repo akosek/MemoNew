@@ -15,25 +15,24 @@ import HomeScreen from './app/screens/HomeScreen';
 import GameScreen from './app/screens/GameScreen';
 import ScoreScreen from './app/screens/ScoreScreen';
 
-export let finalScores =[];
-
+/*export let finalScores =[];
+*/
 
 export default class App extends Component <{}> {
   constructor(props){
     super(props);
-    this.getData = this.getData.bind(this);
+    /*this.getData = this.getData.bind(this);*/
   }
 
-  async getData(){
+/*  async getData(){
     let response = await AsyncStorage.getItem('userScore');
     finalScores = await JSON.parse(response) || [];
   }
-
+*/
   render() {
 
-    this.getData();
-    console.log("Heej!");
-
+  /*  this.getData();*/
+  
     return (
 
         <NavigationApp />

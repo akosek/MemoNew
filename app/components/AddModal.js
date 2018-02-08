@@ -24,6 +24,7 @@ export class AddModal extends Component {
     super(props);
     this.state = {
       userName: ' ',
+
     };
     this.saveData = this.saveData.bind(this);
   }
@@ -40,7 +41,7 @@ export class AddModal extends Component {
 
      finalScores = data.concat({levelData: this.props.level, scoreData: this.props.userTime, key: data.length+1, userName:name});
 
-    console.log(finalScores);
+    //console.log(finalScores);
     await AsyncStorage.setItem("userScore", JSON.stringify(finalScores));
 
     }
@@ -90,7 +91,7 @@ export class AddModal extends Component {
               userTime: scoreDisplay,
               userLevel : this.props.level
             };
-            console.log(newUser);
+          //  console.log(newUser);
 
             this.saveData(this.state.userName);
 
