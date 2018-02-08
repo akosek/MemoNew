@@ -11,7 +11,6 @@ import {
 import { Icon } from 'react-native-elements';
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from 'react-navigation';
-//import { Card } from './app/components/Card';
 import HomeScreen from './app/screens/HomeScreen';
 import GameScreen from './app/screens/GameScreen';
 import ScoreScreen from './app/screens/ScoreScreen';
@@ -25,7 +24,6 @@ export default class App extends Component <{}> {
     this.getData = this.getData.bind(this);
   }
 
-
   async getData(){
     let response = await AsyncStorage.getItem('userScore');
     finalScores = await JSON.parse(response) || [];
@@ -34,6 +32,7 @@ export default class App extends Component <{}> {
   render() {
 
     this.getData();
+    console.log("Heej!");
 
     return (
 
@@ -76,17 +75,6 @@ const NavigationApp = StackNavigator({
      tintColor: '#ffffff',
      headerMode: 'none'
    });
-
-const BottomNavigation = TabNavigator({
-    Tab1: {screen:HomeScreen},
-    Tab2: {screen:GameScreen},
-    Tab3: {screen:ScoreScreen}
-  },
-  {
-    TabBarPosition: 'bottom',
-  }
-);
-
 
 
 const styles = StyleSheet.create({

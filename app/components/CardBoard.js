@@ -7,7 +7,7 @@ import {
 	Image,
   AsyncStorage,
   TouchableHighlight,
-  Animated, Dimensions
+  Dimensions
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
@@ -15,6 +15,7 @@ import { List, ListItem, Button } from 'react-native-elements';
 import {ScoreScreen} from "../screens/ScoreScreen";
 import AwesomeAlert from 'react-native-awesome-alerts';
 import {Sets} from './Sets.js';
+import { AddModal } from './AddModal.js';
 
 let tapNum = false;
 let tmpObject = {};
@@ -29,20 +30,25 @@ var cardSize = width * 0.220;
 var imageSize = cardSize * 0.5625;
 
 
-export let userScore = {
+export let userScores = {
 };
 
-
-let scoreDisplay = '';
+export let scoreDisplay = '';
 
 export class CardBoard extends React.Component {
   constructor(props){
      super(props);
      this.state = {cards: this.props.images, time: 0, showAlert: false};
      this.updateBoard = this.updateBoard.bind(this);
-     this.saveData = this.saveData.bind(this);
+    // this.saveData = this.saveData.bind(this);
+     this.addScore = this.addScore.bind(this);
 
    }
+
+   addScore(){
+     this.refs.addModal.showModal();
+   };
+
 
    showAlert = () => {
      this.setState({
@@ -56,7 +62,8 @@ export class CardBoard extends React.Component {
      });
    };
 
-   async saveData(value) {
+
+/*   async saveData(value) {
 
      //AsyncStorage.clear();
      let response = await AsyncStorage.getItem("userScore");
@@ -67,7 +74,7 @@ export class CardBoard extends React.Component {
      console.log(finalScores);
      await AsyncStorage.setItem("userScore", JSON.stringify(finalScores));
 
-     }
+     }*/
 
    updateBoard(newPressed) {
 
@@ -117,9 +124,12 @@ export class CardBoard extends React.Component {
        clearInterval(timerHandle);
        var totalTime = (end - start)/1000;
        this.setState({time: totalTime});
-       this.saveData(totalTime);
+      
+      // this.saveData(totalTime);
        scoreDisplay = JSON.stringify(totalTime);
-       this.showAlert();
+
+       this.addScore();
+      // this.showAlert();
       // alert("End Game: " + totalTime + " seconds");
      }
 
@@ -148,6 +158,8 @@ export class CardBoard extends React.Component {
    }
 
    render() {
+
+     //const { navigate } = this.props.navigation;
 
      const {showAlert} = this.state;
 
@@ -179,21 +191,10 @@ export class CardBoard extends React.Component {
               <Text>{pickedImages}</Text>
            </View>
 
-           <AwesomeAlert
-             show={showAlert}
-             showProgress={false}
-             title="Your final time:"
-             message= {scoreDisplay}
-             closeOnTouchOutside={true}
-             closeOnHardwareBackPress={false}
-             showCancelButton={false}
-             showConfirmButton={true}
-             confirmText="OK!"
-             confirmButtonColor="#ea4d57"
-             onConfirmPressed={() => {
-               this.hideAlert();
-             }}
-           />
+           <AddModal ref={'addModal'} parentBoardCard={this} level={this.props.level} userTime={this.state.time}>
+           </AddModal>
+
+
 
          </View>
        );

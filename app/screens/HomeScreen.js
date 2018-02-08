@@ -9,13 +9,11 @@ import {
     ImageBackground,
 		Item
 } from 'react-native';
-import { Icon } from 'react-native-elements';
-import { Button, Header } from 'react-native-elements';
-import { Sets } from '../components/Sets.js';
+import { Icon, Button } from 'react-native-elements';
 import { StackNavigator } from 'react-navigation';
-import Modal from 'react-native-modalbox';
-
-/*/*import { Dropdown } from 'react-native-material-dropdown';*/
+/*import Button from 'react-native-button';
+*/import Modal from 'react-native-modalbox';
+import { Sets } from '../components/Sets.js';
 
 let pickedLevel = '';
 
@@ -33,6 +31,8 @@ class HomeScreen extends Component {
 	}
 
     render() {
+
+
 
     pickedLevel = this.state.level;
 
@@ -68,16 +68,20 @@ class HomeScreen extends Component {
         </View>
 
         <Modal style={styles.modal} position={"center"} ref={"modal3"} isDisabled={this.state.isDisabled}  isOpen={this.state.isOpen}>
-          <Text style={styles.helloText}>Welcome to Memory Challange</Text>
-          <Text style={styles.text}>
-            Remeber the position of the pair for each card and find them!
-          </Text>
-          <TouchableOpacity
-            onPress={() => this.setState({isOpen: !this.state.isOpen})}>
-              <Icon name='close' color='#ea4d57' size={30}/>
+
+          <View style={styles.topModalBox}>
+            <Text style={styles.helloText}>Welcome to Memory Challange</Text>
+            <Text style={styles.text}>
+              Remeber position of the images and their pairs in order to find them, when they become invisible!
+            </Text>
+          </View>
+
+          <TouchableOpacity style={styles.closeModalButton}
+            onPress={() => this.refs.modal3.close()}>
+            <Text style={{fontSize:20, color:'white'}}>Got it!</Text>
+
           </TouchableOpacity>
         </Modal>
-
 
         <View style={styles.tabBar}>
           <TouchableOpacity style={styles.tabItem}
@@ -117,12 +121,31 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
     },
-	helloText: {
+    topModalBox: {
+      flex:1,
+    },
+    text: {
+      color: 'black',
+      fontSize: 18,
+      alignSelf: 'center',
+      justifyContent:'center',
+      marginTop:30,
+      marginLeft:10,
+      marginRight:10,
+    },
+    closeModalButton: {
+      marginBottom:40,
+      backgroundColor: '#ea4d57',
+      padding:8,
+      flexDirection: 'row',
+      borderRadius: 8
+    },
+	  helloText: {
 			fontSize: 22,
 			textAlign: 'center',
-      color: '#50CEB4',
-			marginBottom: 30,
-			fontWeight: 'bold'
+      color: '#FC5D65',
+			fontWeight: 'bold',
+      marginTop:20
 		},
     body: {
       flex:1,
@@ -166,16 +189,8 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
       height: 300,
-      width: 300
-    },
-    text: {
-      color: '#ea4d57',
-      fontSize: 18,
-      alignItems: 'center',
-      justifyContent:'center'
-
+      width: 300,
+      borderRadius: 25,
+      shadowRadius: 10,
     }
-
-
-
 });

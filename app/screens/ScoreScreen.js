@@ -10,7 +10,7 @@ export default class ScoreScreen extends Component {
 
   constructor(props){
     super(props);
-    this.state = {finalScores}
+    this.state = finalScores;
   }
 
   render() {
@@ -18,14 +18,10 @@ export default class ScoreScreen extends Component {
     displayData = async () => {
       let response = await AsyncStorage.getItem("userScore");
       let data = await JSON.parse(response) || [];
-
-  /*    console.log(data);*/
+      console.log(data);
     }
 
-
     displayData();
-
-  /*  console.log("This is final scores from All the Games " + finalScores);*/
 
     return (
       <View style={styles.container}>
@@ -40,7 +36,7 @@ export default class ScoreScreen extends Component {
 
           <FlatList
             data={finalScores}
-            renderItem={({item}) => <Text style={styles.item}>{item.key} {item.scoreData} {item.levelData}</Text>}
+            renderItem={({item}) => <Text style={styles.item}>{item.key} {item.userName} {item.levelData} {item.scoreData}</Text>}
           />
 
       </View>

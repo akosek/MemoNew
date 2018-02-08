@@ -93,6 +93,28 @@ class HomeScreen extends Component {
             </TouchableOpacity>
           </View>
 
+
+          <AwesomeAlert
+            show={showAlert}
+            showProgress={false}
+            title="Your final time:"
+            message= {scoreDisplay}
+            closeOnTouchOutside={true}
+            closeOnHardwareBackPress={false}
+            showCancelButton={false}
+            showConfirmButton={true}
+            confirmText="OK!"
+            confirmButtonColor="#ea4d57"
+            onConfirmPressed={() => {
+              this.hideAlert();
+            }}
+          />
+
+
+
+
+
+
         </View>
 
 
