@@ -20,7 +20,6 @@ let pickedLevel = '';
 
 export let finalScores = [];
 
-
 class HomeScreen extends Component {
 	constructor(props){
 		super(props);
@@ -41,10 +40,7 @@ class HomeScreen extends Component {
   //    console.log(finalScores);
     }
 
-
     render() {
-
-
 
     pickedLevel = this.state.level;
 

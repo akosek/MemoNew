@@ -40,7 +40,6 @@ export class CardBoard extends React.Component {
      super(props);
      this.state = {cards: this.props.images, time: 0, showAlert: false};
      this.updateBoard = this.updateBoard.bind(this);
-    // this.saveData = this.saveData.bind(this);
      this.addScore = this.addScore.bind(this);
 
    }
@@ -124,13 +123,11 @@ export class CardBoard extends React.Component {
        clearInterval(timerHandle);
        var totalTime = (end - start)/1000;
        this.setState({time: totalTime});
-      
+
       // this.saveData(totalTime);
        scoreDisplay = JSON.stringify(totalTime);
-
        this.addScore();
-      // this.showAlert();
-      // alert("End Game: " + totalTime + " seconds");
+
      }
 
      tapNum = !tapNum;
@@ -158,8 +155,6 @@ export class CardBoard extends React.Component {
    }
 
    render() {
-
-     //const { navigate } = this.props.navigation;
 
      const {showAlert} = this.state;
 

@@ -41,14 +41,16 @@ export class AddModal extends Component {
 
      finalScores = data.concat({levelData: this.props.level, scoreData: this.props.userTime, key: data.length+1, userName:name});
 
-    //console.log(finalScores);
     await AsyncStorage.setItem("userScore", JSON.stringify(finalScores));
 
     }
 
 
 
+
   render(){
+
+    //  const { navigate } = this.props.navigation;
 
     return (
       <Modal
