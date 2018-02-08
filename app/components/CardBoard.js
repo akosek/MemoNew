@@ -1,37 +1,27 @@
 import React, { Component } from 'react';
 import {
-  Platform,
   StyleSheet,
   Text,
   View,
-	Image,
-  AsyncStorage,
+  AsyncStorage, //
   TouchableHighlight,
   Dimensions
 } from 'react-native';
-import { StackNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
-import { List, ListItem, Button } from 'react-native-elements';
-import {ScoreScreen} from "../screens/ScoreScreen";
-import AwesomeAlert from 'react-native-awesome-alerts';
-import {Sets} from './Sets.js';
 import { AddModal } from './AddModal.js';
 
 let tapNum = false;
 let tmpObject = {};
 let timerHandle;
-var star;
 var currentTime;
 
 // Count size for cards and board
 var {height, width} = Dimensions.get('window');
-console.log("height :" + height + ", width:" + width); /////////
 var cardSize = width * 0.220;
 var imageSize = cardSize * 0.5625;
 
 
-export let userScores = {
-};
+
 
 export let scoreDisplay = '';
 
@@ -49,7 +39,7 @@ export class CardBoard extends React.Component {
    };
 
 
-   showAlert = () => {
+/*   showAlert = () => {
      this.setState({
        showAlert: true
      });
@@ -59,7 +49,7 @@ export class CardBoard extends React.Component {
      this.setState({
        showAlert: false
      });
-   };
+   }; */
 
 
 /*   async saveData(value) {
@@ -126,8 +116,10 @@ export class CardBoard extends React.Component {
 
       // this.saveData(totalTime);
        scoreDisplay = JSON.stringify(totalTime);
-       this.addScore();
 
+       this.addScore();
+      // this.showAlert();
+      // alert("End Game: " + totalTime + " seconds");
      }
 
      tapNum = !tapNum;
@@ -156,67 +148,62 @@ export class CardBoard extends React.Component {
 
    render() {
 
-     const {showAlert} = this.state;
+  //   const { navigate } = this.props.navigation;
 
-     console.log("Level from Sets! " + this.props.level);
+//     const {showAlert} = this.state;
 
-      let pickedImages = this.state.cards.map((image,index) =>
-           <Card key={index}
-                 image={image.src}
-                 id={image.id}
-                 visible={image.visible}
-                 clickable={image.clickable}
-                 paired={image.paired}
-                 onPress={this.updateBoard}/>
-       );
+    // console.log("Level from Sets! " + this.props.level);
 
-      return (
-         <View style={styles.container}>
+    let pickedImages = this.state.cards.map((image,index) =>
+         <Card key={index}
+               image={image.src}
+               id={image.id}
+               visible={image.visible}
+               clickable={image.clickable}
+               paired={image.paired}
+               onPress={this.updateBoard}/>
+     );
 
-           <View style={styles.topGameBar}>
-           <View style={styles.timerBox}>
-             <Icon name='clock'
-             type='evilicon'
-             color='#ea4d57' size={33}/>
-             <Text style={styles.timerText}>: {this.state.time}</Text>
-           </View>
-         </View>
-
-           <View style={styles.cardBox}>
-              <Text>{pickedImages}</Text>
-           </View>
-
-           <AddModal ref={'addModal'} parentBoardCard={this} level={this.props.level} userTime={this.state.time}>
-           </AddModal>
-
-
-
-         </View>
-       );
+    return (
+      <View style = {styles.container}>
+        <View style = {styles.topGameBar}>
+          <View style = {styles.timerBox}>
+            <Icon name = 'clock'
+                  type = 'evilicon'
+                  color = '#ea4d57'
+                  size = {33}/>
+              <Text style={styles.timerText}>: {this.state.time} </Text>
+          </View>
+       </View>
+      <View style = {styles.cardBox}>
+        <Text>{pickedImages}</Text>
+      </View>
+        <AddModal ref = {'addModal'} parentBoardCard = {this} level = {this.props.level} userTime = {this.state.time}>
+        </AddModal>
+      </View>
+     );
    }
  }
 
 class Card extends React.Component {
-    constructor(props){
-      super(props);
-      this.toogleCard = this.toogleCard.bind(this);
-      }
+  constructor(props){
+    super(props);
+    this.toogleCard = this.toogleCard.bind(this);
+  }
 
-    toogleCard(){
-      if (this.props.clickable)
-        this.props.onPress(this.props.id);
-    }
+  toogleCard(){
+    if (this.props.clickable)
+      this.props.onPress(this.props.id);
+  }
 
-    render() {
-      return (
-        <TouchableHighlight style={styles.imageContainer} onPress={this.toogleCard}>
-          <Text style={this.props.visible ? styles.imageStyle: styles.imageHide}> {this.props.image} </Text>
-        </TouchableHighlight>
-
-      );
-    }
+  render() {
+    return (
+      <TouchableHighlight style={styles.imageContainer} onPress={this.toogleCard}>
+        <Text style={this.props.visible ? styles.imageStyle: styles.imageHide}> {this.props.image} </Text>
+      </TouchableHighlight>
+    );
+  }
 }
-
 
 const styles = StyleSheet.create({
   container: {
