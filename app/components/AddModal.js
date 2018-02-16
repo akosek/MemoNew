@@ -36,9 +36,6 @@ export class AddModal extends Component {
   }
 
   render(){
-
-  //  const {navigate} = this.props.navigation;
-
     return (
       <Modal
         ref = {"myModal"}
@@ -59,20 +56,6 @@ export class AddModal extends Component {
           }}>
           Save
         </Button>
-
-        <View style={styles.tabBox}>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('HomeScreen')}>
-            <Icon name='home'
-            color='#ea4d57' size={30}/>
-            <Text style={styles.tabText}> Home</Text>
-          </TouchableOpacity>
-            <TouchableOpacity style={styles.tabItem} >
-                <Icon name='trophy'
-                type='evilicon'
-                color='#ea4d57' size={30}/>
-                <Text style={styles.tabText}>Scores</Text>
-            </TouchableOpacity>
-          </View>
       </Modal>
     );
   }
@@ -83,7 +66,7 @@ const styles = StyleSheet.create({
     alignItems:'center',
     fontSize: 25,
     justifyContent:'center',
-    marginTop:10
+    marginTop:3
   },
   contStyle: {
     padding:6,
@@ -98,7 +81,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     width:300,
     shadowRadius: 10,
-    height:350
+    height:250
   },
   scoreText: {
     fontSize:30,
@@ -111,16 +94,8 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     marginRight: 30,
     marginBottom:30,
-    marginTop:30,
+    marginTop:20,
     borderBottomWidth: 1
-  },
-  tabBox: {
-    flexDirection: 'row',
-    flex:1,
-    width:'100%',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    marginTop:20
   },
   tabText: {
     color: '#ea4d57',
