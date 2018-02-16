@@ -8,14 +8,11 @@ import {
     AsyncStorage
 } from 'react-native';
 import { Icon } from 'react-native-elements';
-//import { Sets } from '../components/Sets.js';
-//import { StackNavigator } from 'react-navigation';
+import { StackNavigator, NavigationActions } from 'react-navigation';
 import Modal from 'react-native-modalbox';
 import Button from 'react-native-button';
-
-import {HomeScreen} from '../screens/ScoreScreen.js'; //
-import {ScoreScreen} from '../screens/ScoreScreen.js'; //
-import {scoreDisplay} from './CardBoard.js'; //
+import {GameScreen} from '../screens/GameScreen.js';
+import {tmpMin, tmpSec} from './CardBoard.js';
 
 export class AddModal extends Component {
   constructor(props){
@@ -29,18 +26,18 @@ export class AddModal extends Component {
   }
 
   async saveData(name) {
-
     //AsyncStorage.clear();
     let response = await AsyncStorage.getItem("userScore");
     let data = await JSON.parse(response) || [];
 
-    finalScores = data.concat({levelData: this.props.level, scoreData: this.props.userTime, key: data.length+1, userName: name});
-
+    finalScores = data.concat({levelData: this.props.level, scoreData: this.props.userTime, key: data.length+1, userName: name, tapCount: this.props.tapCount});
     //console.log(finalScores);
     await AsyncStorage.setItem("userScore", JSON.stringify(finalScores));
   }
 
   render(){
+
+  //  const {navigate} = this.props.navigation;
 
     return (
       <Modal
@@ -48,8 +45,8 @@ export class AddModal extends Component {
         style = {styles.modalStyle}
         backdrop = {true}>
         <View style={{justifyContent:'center', alignItems:'center'}}>
-          <Text style={styles.topText}>Your score:</Text>
-          <Text style={styles.scoreText}>{scoreDisplay}</Text>
+          <Text style={styles.topText}>Your time:</Text>
+          <Text style={styles.scoreText}>{tmpMin}:{tmpSec}</Text>
         </View>
         <TextInput style = {styles.inputStyle}
           onChangeText = {(text)=> this.setState({userName: text})}
@@ -64,7 +61,7 @@ export class AddModal extends Component {
         </Button>
 
         <View style={styles.tabBox}>
-          <TouchableOpacity onPress={() => {navigate('HomeScreen')}}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('HomeScreen')}>
             <Icon name='home'
             color='#ea4d57' size={30}/>
             <Text style={styles.tabText}> Home</Text>
@@ -76,7 +73,6 @@ export class AddModal extends Component {
                 <Text style={styles.tabText}>Scores</Text>
             </TouchableOpacity>
           </View>
-
       </Modal>
     );
   }

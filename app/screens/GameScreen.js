@@ -6,12 +6,13 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Sets } from '../components/Sets.js';
-import { NavigationActions} from 'react-navigation';
+import { StackNavigator, NavigationActions} from 'react-navigation';
+import {HomeScreen} from './HomeScreen.js';
+
 
 export default class GameScreen extends Component {
 
   render() {
-
     const {state} = this.props.navigation;
     var levelChosen = state.params.levelName;
 

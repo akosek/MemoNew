@@ -8,22 +8,23 @@ import { StackNavigator, NavigationActions } from 'react-navigation';
 let data = [];
 
 export default class ScoreScreen extends Component {
-
   constructor(props){
     super(props);
-
   }
 
   render() {
-
     displayData = async () => {
       let response = await AsyncStorage.getItem("userScore");
       data = await JSON.parse(response) || [];
-      console.log(data);
+      data.reverse();
+
+      for(var i=0; i < data.length; i++) {
+        data[i].minutes = Math.floor(data[i].scoreData / 60);
+        data[i].seconds = (data[i].scoreData - data[i].minutes * 60).toFixed(2);
+        }
     }
 
     displayData();
-  //  console.log(finalScores);
 
     return (
       <View style={styles.container}>
@@ -36,12 +37,29 @@ export default class ScoreScreen extends Component {
 
         <View style={styles.scoreBody}>
 
+          <View style= {styles.topRow}>
+            <Text style={styles.rowName}>Name</Text>
+            <Text style={styles.rowName}>Level</Text>
+            <Text style={styles.rowName}>Time</Text>
+            <Text style={styles.rowName}>Taps</Text>
+          </View>
+
           <FlatList
             data={data}
-            renderItem={({item}) => <Text style={styles.item}>{item.key} {item.userName} {item.levelData} {item.scoreData}</Text>}
+            numColumns={1}
+            keyExtractor={(item, index) => item.key }
+            renderItem={({item}) =>
+
+            <View style={styles.itemBox }>
+              <Text style={styles.dataItem}>{ item.userName }</Text>
+              <Text style={styles.dataItem}>{ item.levelData }</Text>
+              <Text style={styles.dataItem}>{ item.minutes }:{item.seconds}</Text>
+              <Text style={styles.dataItem}>{ item.tapCount }</Text>
+            </View>
+            }
           />
 
-      </View>
+        </View>
       </View>
     );
   }
@@ -51,7 +69,7 @@ const styles = StyleSheet.create({
   container: {
    flex: 1,
    paddingTop: 22,
-   backgroundColor: 'white',
+   backgroundColor: 'black',
   },
   navScore: {
     width: '100%',
@@ -62,19 +80,35 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     fontSize: 18,
-    color: '#ea4d57'
+    color: 'white'
   },
   backButton: {
     flexDirection: 'row',
     left: 0,
     justifyContent: 'flex-start',
   },
-  item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44,
+  topRow: {
+    flexDirection:'row',
+    justifyContent:'space-around',
+    alignItems: 'center',
+    marginBottom: 10
+  },
+  rowName: {
+    fontSize:20,
+    color:'#ea4d57',
+    textAlign: 'left'
+  },
+  itemBox: {
+    flexDirection: 'row',
+    flex:1,
+    marginLeft:25,
+  },
+  dataItem: {
+    flex:1,
+    color: 'white',
+    justifyContent: 'flex-end',
+    flexDirection: 'row',
+    fontSize: 15,
+    textAlign: 'left'
   },
 })
-
-// skip this line if using Create React Native App
-//AppRegistry.registerComponent('AwesomeProject', () => FlatListBasics);

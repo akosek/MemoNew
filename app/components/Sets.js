@@ -28,10 +28,11 @@ export class Sets extends React.Component{
     var randomNumber = Math.floor(Math.random() * 3);
     var firstSetNumber = Math.floor(Math.random() * 4);
 
+
     switch (this.props.levelName) {
       case 'Easy':
         var set = images[0][firstSetNumber];
-        var numCards = 2;
+        var numCards = 6;
         break;
       case 'Medium':
         var set = images[1][randomNumber];

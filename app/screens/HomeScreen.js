@@ -64,7 +64,7 @@ export default class HomeScreen extends Component {
           <View style = {styles.topModalBox}>
             <Text style = {styles.helloText}> Welcome to Memory Challenge </Text>
             <Text style = {styles.text}>
-              Remeber the position of the images and their pairs in order to find them when they become invisible!
+              Remeber the position of the images and their pairs in order to match them when they become invisible!
             </Text>
           </View>
           <TouchableOpacity style = {styles.closeModalButton} onPress = { () => this.refs.modal3.close()}>
@@ -73,17 +73,18 @@ export default class HomeScreen extends Component {
         </Modal>
 
         <View style={styles.tabBar}>
-          <TouchableOpacity style = {styles.tabItem} onPress={ () => this.refs.modal3.open()} style={styles.btn}>
-          <Icon name = 'info' color = '#ea4d57' size = {30}/>
+          <TouchableOpacity style = {styles.tabItem} onPress={ () => this.refs.modal3.open()}>
+          <Icon name = 'info' color = '#ea4d57' size = {35}/>
             <Text style={styles.tabText}> Info </Text>
           </TouchableOpacity>
+
           <TouchableOpacity style={styles.tabItem} onPress={ () => {
 
             this.getData();
             this.props.navigation.navigate('ScoreScreen');
 
           }}>
-          <Icon name = 'trophy' type = 'evilicon' color = '#ea4d57' size={30}/>
+          <Icon name = 'trophy' type = 'evilicon' color = '#ea4d57' size={35}/>
               <Text style={styles.tabText}> Scores </Text>
           </TouchableOpacity>
         </View>
@@ -110,7 +111,7 @@ const styles = StyleSheet.create({
   text: {
     color: 'black',
     fontSize: 18,
-    alignSelf: 'center',
+  textAlign: 'center',
     justifyContent:'center',
     marginTop:30,
     marginLeft:10,
@@ -164,7 +165,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   tabText: {
-    color: '#ea4d57'
+    color: '#ea4d57',
+    fontSize: 15,
+    marginLeft:8
   },
   modal: {
     justifyContent: 'center',

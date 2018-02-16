@@ -3,25 +3,26 @@ import {
   StyleSheet,
   Text,
   View,
-  AsyncStorage, //
   TouchableHighlight,
   Dimensions
 } from 'react-native';
 import { Icon } from 'react-native-elements';
+import { StackNavigator } from 'react-navigation';
 import { AddModal } from './AddModal.js';
+import {navigate} from '../../App.js';
 
 let tapNum = false;
 let tmpObject = {};
 let timerHandle;
 var currentTime;
+var tapCount = 0;
+export let tmpMin =0;
+export let tmpSec = 0;
 
 // Count size for cards and board
 var {height, width} = Dimensions.get('window');
 var cardSize = width * 0.220;
 var imageSize = cardSize * 0.5625;
-
-
-
 
 export let scoreDisplay = '';
 
@@ -31,39 +32,13 @@ export class CardBoard extends React.Component {
      this.state = {cards: this.props.images, time: 0, showAlert: false};
      this.updateBoard = this.updateBoard.bind(this);
      this.addScore = this.addScore.bind(this);
-
+     tmpMin = 0;
+     tmpSec = 0;
    }
 
    addScore(){
      this.refs.addModal.showModal();
    };
-
-
-/*   showAlert = () => {
-     this.setState({
-       showAlert: true
-     });
-   };
-
-   hideAlert = () => {
-     this.setState({
-       showAlert: false
-     });
-   }; */
-
-
-/*   async saveData(value) {
-
-     //AsyncStorage.clear();
-     let response = await AsyncStorage.getItem("userScore");
-     let data = await JSON.parse(response) || [];
-
-     finalScores = data.concat({levelData: this.props.level, scoreData: value, key: data.length+1});
-
-     console.log(finalScores);
-     await AsyncStorage.setItem("userScore", JSON.stringify(finalScores));
-
-     }*/
 
    updateBoard(newPressed) {
 
@@ -80,9 +55,11 @@ export class CardBoard extends React.Component {
          this.state.cards[newPressed].clickable = false;
          this.state.cards[newPressed].paired = true;
          tmpObject.paired = true;
+         tapCount += 1;
        }
        else{
          console.log('second tap: no match'); ///////
+         tapCount +=1;
          this.state.cards[newPressed].visible = true;
          for (var i in   this.state.cards) {
              this.state.cards[i].clickable = false;
@@ -112,19 +89,19 @@ export class CardBoard extends React.Component {
        var end = new Date().getTime();
        clearInterval(timerHandle);
        var totalTime = (end - start)/1000;
-       this.setState({time: totalTime});
+       tmpMin = Math.floor(totalTime / 60);
+       tmpSec = (totalTime - tmpMin * 60).toFixed(2);
 
-      // this.saveData(totalTime);
+       this.setState({time: totalTime, tapCount: tapCount});
        scoreDisplay = JSON.stringify(totalTime);
 
        this.addScore();
-      // this.showAlert();
-      // alert("End Game: " + totalTime + " seconds");
      }
 
      tapNum = !tapNum;
 
    }
+
 
    componentDidMount () {
 
@@ -140,6 +117,10 @@ export class CardBoard extends React.Component {
        timerHandle = setInterval(function(){
          var now = new Date().getTime();
          currentTime = (now - start)/1000;
+
+         tmpMin = Math.floor(currentTime / 60);
+         tmpSec = (currentTime - tmpMin * 60).toFixed(2);
+
          this.setState({time: currentTime});
        }.bind(this),100);
 
@@ -147,12 +128,6 @@ export class CardBoard extends React.Component {
    }
 
    render() {
-
-  //   const { navigate } = this.props.navigation;
-
-//     const {showAlert} = this.state;
-
-    // console.log("Level from Sets! " + this.props.level);
 
     let pickedImages = this.state.cards.map((image,index) =>
          <Card key={index}
@@ -172,13 +147,13 @@ export class CardBoard extends React.Component {
                   type = 'evilicon'
                   color = '#ea4d57'
                   size = {33}/>
-              <Text style={styles.timerText}>: {this.state.time} </Text>
+              <Text style={styles.timerText}> {tmpMin}: {tmpSec}</Text>
           </View>
        </View>
       <View style = {styles.cardBox}>
         <Text>{pickedImages}</Text>
       </View>
-        <AddModal ref = {'addModal'} parentBoardCard = {this} level = {this.props.level} userTime = {this.state.time}>
+        <AddModal ref = {'addModal'} parentBoardCard = {this} level = {this.props.level} userTime = {this.state.time} tapCount = {this.state.tapCount}>
         </AddModal>
       </View>
      );
@@ -197,6 +172,7 @@ class Card extends React.Component {
   }
 
   render() {
+
     return (
       <TouchableHighlight style={styles.imageContainer} onPress={this.toogleCard}>
         <Text style={this.props.visible ? styles.imageStyle: styles.imageHide}> {this.props.image} </Text>
